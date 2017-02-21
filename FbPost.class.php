@@ -22,11 +22,21 @@ class FbPost
 
     public function __construct($_postUlr)
     {
+        $this->id = $this->getIdByLink($_postUlr);
+    }
+
+
+    /**
+     * @param $_postUlr
+     * @return array
+     * @throws Exception если из ссылки не удаётся выделить id поста
+     */
+    private function getIdByLink($_postUlr){
         preg_match('/(?<=permalink\/)[0-9]{14,16}/', $_postUlr, $postId);
         if (empty($postId)) {
             throw new Exception('Не удаётся выделить id поста из заявленной ссылки!');
         }
-        $this->id = end($postId);
+        return end($postId);
     }
 
     /**
